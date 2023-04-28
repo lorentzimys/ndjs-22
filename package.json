@@ -1,0 +1,25 @@
+{
+  "name": "ndjs-22",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "current": "./current.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lorentzimys/ndjs-22.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lorentzimys/ndjs-22/issues"
+  },
+  "homepage": "https://github.com/lorentzimys/ndjs-22#readme",
+  "dependencies": {
+    "yargs": "^17.7.2"
+  }
+}

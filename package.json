@@ -2,10 +2,11 @@
   "name": "ndjs-22",
   "version": "1.0.0",
   "description": "",
-
   "bin": {
-    "current": "./currentDate.js",
-    "guessNumber": "./guessNumber.mjs"
+    "current": "./scripts/currentDate.js",
+    "guessNumber": "./scripts/guessNumber.mjs",
+    "headsAndTails": "./scripts/headsAndTails.mjs",
+    "headsAndTailsLogger": "./scripts/headsAndTailsLogger.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

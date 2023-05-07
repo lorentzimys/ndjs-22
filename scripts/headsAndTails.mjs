@@ -63,33 +63,33 @@ function gameStats(file, callback) {
     console.clear();
 
     if (err == null) {
-      const results = data
-      .split('\n')
-      .filter(line => !!line.length)
-      .map(line => JSON.parse(line))
-      .reduce((result, gameData) => { 
-        result.totalPlayed++;
-        if (gameData.gameFinished) {
-          gameData.guessed 
-            ? result.totalWon++
-            : result.totalLost++;
-        } else {
-          result.cancelled++;
-        }
+      const results = data.split('\n')
+        .filter(line => !!line.length)
+        .map(line => JSON.parse(line))
+        .reduce((result, gameData) => { 
+          result.totalPlayed++;
+          if (gameData.gameFinished) {
+            gameData.guessed 
+              ? result.totalWon++
+              : result.totalLost++;
+          } else {
+            result.cancelled++;
+          }
 
-        return result;
-      }, {
-        totalPlayed: 0,
-        totalWon: 0,
-        totalLost: 0,
-        cancelled: 0,
-      });
+          return result;
+        }, {
+          totalPlayed: 0,
+          totalWon: 0,
+          totalLost: 0,
+          cancelled: 0,
+        });
 
-    console.log('Total played: ', results.totalPlayed);
-    console.log('Total won: ', results.totalWon);
-    console.log('Total lost: ', results.totalLost);
-    console.log('Cancelled: ', results.cancelled);
-    } else if (err.code === 'ENOENT') {
+      console.log('Total played: ', results.totalPlayed);
+      console.log('Total won: ', results.totalWon);
+      console.log('Total lost: ', results.totalLost);
+      console.log('Cancelled: ', results.cancelled);
+      console.log('Won/Lost (%): ', Math.round((results.totalWon/results.totalLost)) * 100 + '%')}
+    else if (err.code === 'ENOENT') {
       console.log('No such file or directory: ', file);
     } else if (err) {
       console.error('Could not read file: ', err.code);

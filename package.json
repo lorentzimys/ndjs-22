@@ -5,7 +5,8 @@
   "bin": {
     "current": "./scripts/currentDate.js",
     "guessNumber": "./scripts/guessNumber.mjs",
-    "headsAndTails": "./scripts/headsAndTails.mjs"
+    "headsAndTails": "./scripts/headsAndTails.mjs",
+    "weatherForecast": "./scripts/weatherForecast.mjs"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,5 +23,8 @@
   "homepage": "https://github.com/lorentzimys/ndjs-22#readme",
   "dependencies": {
     "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.3"
   }
 }

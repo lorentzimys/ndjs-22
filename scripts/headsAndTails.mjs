@@ -4,7 +4,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import fs from 'fs';
 
-const ENCODING = 'utf-8';
+import { ENCODING  } from '../config.mjs';
 
 const argv = yargs(hideBin(process.argv))
   .option('logfile', {

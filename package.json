@@ -2,13 +2,8 @@
   "name": "ndjs-22",
   "version": "1.0.0",
   "description": "",
-  "bin": {
-    "current": "./scripts/currentDate.js",
-    "guessNumber": "./scripts/guessNumber.mjs",
-    "headsAndTails": "./scripts/headsAndTails.mjs",
-    "weatherForecast": "./scripts/weatherForecast.mjs"
-  },
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,9 +17,17 @@
   },
   "homepage": "https://github.com/lorentzimys/ndjs-22#readme",
   "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
-    "dotenv": "^16.0.3"
+    "@faker-js/faker": "^8.0.0",
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.22"
+  },
+  "engines": {
+    "node": "18.x",
+    "npm": "8.x"
   }
 }

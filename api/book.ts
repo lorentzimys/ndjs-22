@@ -1,8 +1,8 @@
+import { RequestHandler } from "express";
 import { v4 } from "uuid";
 
-import mockBooks from "@root/api/__mocks__/book.json";
+import mockBooks from "@root/__mocks__/book.json";
 import { Book } from "@root/models/Book";
-import { RequestHandler } from "express";
 
 const uuid = v4;
 const dataStore = mockBooks as unknown as Book[] ?? [];

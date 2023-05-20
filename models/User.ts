@@ -2,8 +2,11 @@
  * @class User
  * @description User model  
  */
-class User {
-    constructor(opts) {
+export class User {
+    id: string | number;
+    mail: string;
+
+    constructor(opts: User) {
         const { id, mail } = opts;
 
         this.id = id;
@@ -12,5 +15,3 @@ class User {
         return this;
     }
 }
-
-module.exports = { User };

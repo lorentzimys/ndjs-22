@@ -1,6 +1,6 @@
 import { v4 } from "uuid";
 
-import mockBooks from "@root/api/__mocks__/book.json";
+import mockBooks from "@root/__mocks__/book.json";
 import { Book } from "@root/models/Book";
 import { RequestHandler } from "express";
 

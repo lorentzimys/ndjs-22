@@ -1,4 +1,4 @@
-import * as mockUser from "@root/api/__mocks__/user.json";
+import * as mockUser from "@root/__mocks__/user.json";
 import { User } from "@root/models/User";
 
 /**

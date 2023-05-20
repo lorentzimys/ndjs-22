@@ -9,4 +9,6 @@ export const userRouter = Router();
  * User REST-API
  */
 
+
+/** Login */
 userRouter.post(PATHS.login, login);

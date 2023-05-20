@@ -10,13 +10,21 @@ export const booksRouter = Router();
  * Books REST-API
  */
 
-booksRouter.get(PATHS.getBooks, getBooks);
-booksRouter.get(PATHS.getBook, getBook);
-booksRouter.post(PATHS.createBook, fileUpload.single("fileBook"), createBook);
-booksRouter.put(PATHS.updateBook, updateBook);
-booksRouter.delete(PATHS.deleteBook, deleteBook);
-booksRouter.get(PATHS.downloadBook, downloadBook);
 
-module.exports = {
-  booksRouter
-};
+/** Get all books */
+booksRouter.get(PATHS.getBooks, getBooks);
+
+/** Get book by id */
+booksRouter.get(PATHS.getBook, getBook);
+
+/** Create book */
+booksRouter.post(PATHS.createBook, fileUpload.single("fileBook"), createBook);
+
+/** Update book */
+booksRouter.put(PATHS.updateBook, updateBook);
+
+/** Delete book */
+booksRouter.delete(PATHS.deleteBook, deleteBook);
+
+/** Download book */
+booksRouter.get(PATHS.downloadBook, downloadBook);

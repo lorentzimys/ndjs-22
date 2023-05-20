@@ -2,6 +2,7 @@ import { v4 } from "uuid";
 
 import mockBooks from "@root/api/__mocks__/book.json";
 import { Book } from "@root/models/Book";
+import { RequestHandler } from "express";
 
 const uuid = v4;
 const dataStore = mockBooks as unknown as Book[] ?? [];
@@ -11,29 +12,34 @@ const dataStore = mockBooks as unknown as Book[] ?? [];
  * @returns 
  */
 const findBookById = (id: string | number): Book | undefined  => {
-  return dataStore.find((book: Book) => book.id === id);
+  return dataStore.find((book: Book) => book.id == id);
 };
+
+/** 
+ * Returns 404 error
+ */
+export const getNotFoundError = (res: any) => res.status(404).json({
+  errmsg: "Book not found",
+  errcode: 404,
+});
 
 /** [GET] Get all books
  * @param {*} req 
  * @param {*} res 
  */
-export const getBooks = (req: any, res: any) => res.status(200).json(mockBooks);
+export const getBooks: RequestHandler = (req, res) => res.status(200).json(dataStore);
 
 /** [GET] Get book by id
  * @param {*} req 
  * @param {*} res 
  * @returns 
  */
-export const getBook = (req: any, res: any) => {
+export const getBook: RequestHandler = (req, res) => {
   const { id } = req.params;
   const book = findBookById(id);
 
   if (!book) {
-    return res.status(404).json({
-      errmsg: "Book not found",
-      errcode: 404,
-    });
+    return getNotFoundError(res);
   }
 
   res.status(200).json(book);
@@ -43,12 +49,13 @@ export const getBook = (req: any, res: any) => {
  * @param {*} req 
  * @param {*} res 
  */
-export const createBook = (req: any, res: any) => {
+export const createBook: RequestHandler = (req, res) => {
   const id = uuid();
 
   const newBook = new Book({
+    fileName: req.file?.filename,
     ...req.body,
-    filebook: req.file?.path || "",
+    fileBook: req.file?.path ?? "",
     id,
   });
 
@@ -61,17 +68,14 @@ export const createBook = (req: any, res: any) => {
  * @param {*} req 
  * @param {*} res 
  */
-export const updateBook = (req: any, res: any) => {
+export const updateBook: RequestHandler = (req, res) => {
   const { id } = req.params;
 
   const bookIdx = dataStore.findIndex(book => book.id == id);
   const book = dataStore[bookIdx];
 
   if (!book) {
-    return res.status(404).json({
-      errmsg: "Book not found",
-      errcode: 404,
-    });
+    return getNotFoundError(res);
   }
 
   const updatedBook = new Book({ ...book, ...req.body });
@@ -83,16 +87,13 @@ export const updateBook = (req: any, res: any) => {
  * @param {*} req 
  * @param {*} res 
  */
-export const deleteBook = (req: any, res: any) => {
+export const deleteBook: RequestHandler = (req, res) => {
   const { id } = req.params;
 
   const idx = dataStore.findIndex(book => book.id == id);
 
   if (idx === -1) {
-    return res.status(404).json({
-      errmsg: "Book not found",
-      errcode: 404,
-    });
+    return getNotFoundError(res);
   }
 
   dataStore.splice(idx, 1);
@@ -101,19 +102,16 @@ export const deleteBook = (req: any, res: any) => {
 };
 
 /** [GET] Download book */
-export const downloadBook = (req: any, res: any) => {
+export const downloadBook: RequestHandler = (req, res) => {
   const { id } = req.params;
 
   const book = findBookById(id);
 
   if (!book) {
-    return res.status(404).json({
-      errmsg: "Book not found",
-      errcode: 404,
-    });
+    return getNotFoundError(res);
   }
 
-  const { fileBook } = book;
+  const { fileBook, fileName } = book;
 
-  res.download(fileBook);
+  res.download(fileBook, fileName);
 };

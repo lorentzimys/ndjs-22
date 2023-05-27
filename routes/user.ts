@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { PATHS } from "@root/routes";
-import { login } from "@root/api/user";
+import { login } from "@root/controllers/user";
 
 export const userRouter = Router();
 

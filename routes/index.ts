@@ -1,11 +1,18 @@
-const API_PATH = "/api";
+import { getIndexView } from "@root/controllers";
+import { Router } from "express";
 
 export const PATHS = {
-  login: `${API_PATH}/user/login`,
-  getBooks: `${API_PATH}/books`,
-  getBook: `${API_PATH}/books/:id`,
-  createBook: `${API_PATH}/books`,
-  updateBook: `${API_PATH}/books/:id`,
-  deleteBook: `${API_PATH}/books/:id`,
-  downloadBook: `${API_PATH}/books/:id/download`,
+  login: "/user/login",
+  getBooks: "/books",
+  createBook: "/books/create",
+  getBook: "/books/:id",
+  editBook: "/books/:id/edit",
+  deleteBook: "/books/:id",
+  downloadBook: "/books/:id/download",
 };
+
+export const indexRouter: Router = Router();
+
+indexRouter.get("/", getIndexView);
+
+indexRouter.get("/404", (res, req) => req.render("./404"));

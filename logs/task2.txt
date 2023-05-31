@@ -1,0 +1,179 @@
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker pull node:15.4
+15.4: Pulling from library/node
+22f9b9782fc3: Pull complete
+072739d44e4f: Pull complete
+5111f27e9600: Pull complete
+dc22afea6082: Pull complete
+0ad0b403cda0: Pull complete
+bca65cadbc25: Pull complete
+4515c6ca275c: Pull complete
+32c25c884a57: Pull complete
+a35ea168b680: Pull complete
+Digest: sha256:a76eb778d162f8fd96138d9ca7dbd14b8916c201775a97d2f2aa22e9f13eb105
+Status: Downloaded newer image for node:15.4
+docker.io/library/node:15.4
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run -e NAME=Aleksey -e SURNAME=Stepanov --name mynode -it node
+Unable to find image 'node:latest' locally
+latest: Pulling from library/node
+
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run -e NAME=Aleksey -e SURNAME=Stepanov --name mynode -it node:15.4
+Welcome to Node.js v15.4.0.
+Type ".help" for more information.
+> console.log(`Привет, ${env.NAME} ${env.SURNAME}!`)
+Uncaught ReferenceError: env is not defined
+> console.log(`Привет, ${process.env.NAME} ${process.env.SURNAME}!`)
+Привет, Aleksey Stepanov!
+undefined
+> quit
+Uncaught ReferenceError: quit is not defined
+>
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+>
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker -rm node:15.4
+unknown shorthand flag: 'r' in -rm
+See 'docker --help'.
+
+Usage:  docker [OPTIONS] COMMAND
+
+A self-sufficient runtime for containers
+
+Common Commands:
+  run         Create and run a new container from an image
+  exec        Execute a command in a running container
+  ps          List containers
+  build       Build an image from a Dockerfile
+  pull        Download an image from a registry
+  push        Upload an image to a registry
+  images      List images
+  login       Log in to a registry
+  logout      Log out from a registry
+  search      Search Docker Hub for images
+  version     Show the Docker version information
+  info        Display system-wide information
+
+Management Commands:
+  builder     Manage builds
+  buildx*     Docker Buildx (Docker Inc., v0.10.4)
+  compose*    Docker Compose (Docker Inc., v2.17.3)
+  container   Manage containers
+  context     Manage contexts
+  dev*        Docker Dev Environments (Docker Inc., v0.1.0)
+  extension*  Manages Docker extensions (Docker Inc., v0.2.19)
+  image       Manage images
+  init*       Creates Docker-related starter files for your project (Docker Inc., v0.1.0-beta.4)
+  manifest    Manage Docker image manifests and manifest lists
+  network     Manage networks
+  plugin      Manage plugins
+  sbom*       View the packaged-based Software Bill Of Materials (SBOM) for an image (Anchore Inc., 0.6.0)
+  scan*       Docker Scan (Docker Inc., v0.26.0)
+  scout*      Command line tool for Docker Scout (Docker Inc., v0.10.0)
+  system      Manage Docker
+  trust       Manage trust on Docker images
+  volume      Manage volumes
+
+Swarm Commands:
+  swarm       Manage Swarm
+
+Commands:
+  attach      Attach local standard input, output, and error streams to a running container
+  commit      Create a new image from a container's changes
+  cp          Copy files/folders between a container and the local filesystem
+  create      Create a new container
+  diff        Inspect changes to files or directories on a container's filesystem
+  events      Get real time events from the server
+  export      Export a container's filesystem as a tar archive
+  history     Show the history of an image
+  import      Import the contents from a tarball to create a filesystem image
+  inspect     Return low-level information on Docker objects
+  kill        Kill one or more running containers
+  load        Load an image from a tar archive or STDIN
+  logs        Fetch the logs of a container
+  pause       Pause all processes within one or more containers
+  port        List port mappings or a specific mapping for the container
+  rename      Rename a container
+  restart     Restart one or more containers
+  rm          Remove one or more containers
+  rmi         Remove one or more images
+  save        Save one or more images to a tar archive (streamed to STDOUT by default)
+  start       Start one or more stopped containers
+  stats       Display a live stream of container(s) resource usage statistics
+  stop        Stop one or more running containers
+  tag         Create a tag TARGET_IMAGE that refers to SOURCE_IMAGE
+  top         Display the running processes of a container
+  unpause     Unpause all processes within one or more containers
+  update      Update configuration of one or more containers
+  wait        Block until one or more containers stop, then print their exit codes
+
+Global Options:
+      --config string      Location of client config files (default
+                           "C:\\Users\\loren\\.docker")
+  -c, --context string     Name of the context to use to connect to the
+                           daemon (overrides DOCKER_HOST env var and
+                           default context set with "docker context use")
+  -D, --debug              Enable debug mode
+  -H, --host list          Daemon socket(s) to connect to
+  -l, --log-level string   Set the logging level ("debug", "info",
+                           "warn", "error", "fatal") (default "info")
+      --tls                Use TLS; implied by --tlsverify
+      --tlscacert string   Trust certs signed only by this CA (default
+                           "C:\\Users\\loren\\.docker\\ca.pem")
+      --tlscert string     Path to TLS certificate file (default
+                           "C:\\Users\\loren\\.docker\\cert.pem")
+      --tlskey string      Path to TLS key file (default
+                           "C:\\Users\\loren\\.docker\\key.pem")
+      --tlsverify          Use TLS and verify the remote
+  -v, --version            Print version information and quit
+
+Run 'docker COMMAND --help' for more information on a command.
+
+For more help on how to use Docker, head to https://docs.docker.com/go/guides/
+
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rmi node:15.4
+Error response from daemon: conflict: unable to remove repository reference "node:15.4" (must force) - container 01bac40da2a8 is using its referenced image 6f7f341ab8b8
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker ps -a
+CONTAINER ID   IMAGE                                       COMMAND                  CREATED         STATUS                      PORTS     NAMES
+01bac40da2a8   node:15.4                                   "docker-entrypoint.s…"   2 minutes ago   Exited (0) 41 seconds ago             mynode
+515159e06692   mcr.microsoft.com/devcontainers/php:0-8.2   "/bin/sh -c 'echo Co…"   6 weeks ago     Exited (137) 6 weeks ago              quizzical_wescoff
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker stop mynode
+mynode
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rm mynode
+mynode
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker ps -a
+CONTAINER ID   IMAGE                                       COMMAND                  CREATED       STATUS                     PORTS     NAMES
+515159e06692   mcr.microsoft.com/devcontainers/php:0-8.2   "/bin/sh -c 'echo Co…"   6 weeks ago   Exited (137) 6 weeks ago             quizzical_wescoff
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rmi node:15.4
+Untagged: node:15.4
+Untagged: node@sha256:a76eb778d162f8fd96138d9ca7dbd14b8916c201775a97d2f2aa22e9f13eb105
+Deleted: sha256:6f7f341ab8b86ae1e8ce376b8f962f33d0cd3d9d9cd07acd77396d91bac34d8b
+Deleted: sha256:0d6952a67c502eb49f25425a3e2fff57e26eb62f0c6491d6c4c7884f306e667f
+Deleted: sha256:ec81d45a76499da896d7d290d194e3d016fa3d516901bda60944f720ac1d5228
+Deleted: sha256:3f6ba30555746a1b281bd0027e8edd06b4e75cfd8b2757b5b6eeeda31803c304
+Deleted: sha256:653dcd2c724a243a8992ee862ea959f5fc6e3f14e3b17547dbb84daa535ba82d
+Deleted: sha256:8817ecb50c4cff6c4f36dd03e16404bb789b62b6d10f85870dcf481d812b2aeb
+Deleted: sha256:a00209e6849f8017e1f436e6c1a6e6851e6a6319c1c84c7d488a737e1920f2b2
+Deleted: sha256:68827cbdee27e3c02a32334db831b031835caaa73fb2c9ff7a035b39f60a55f5
+Deleted: sha256:9d2607deaa845810b40b28c576e170f9f76579d442bad3bd991465b984ebfde5
+Deleted: sha256:0279b13c6fc69327776f36c3e76faafb3d15dca370a91eefdd22641b2c50f257

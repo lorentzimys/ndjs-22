@@ -1,0 +1,64 @@
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker pull node:15.4
+15.4: Pulling from library/node
+22f9b9782fc3: Pull complete
+072739d44e4f: Pull complete
+5111f27e9600: Pull complete
+dc22afea6082: Pull complete
+0ad0b403cda0: Pull complete
+bca65cadbc25: Pull complete
+4515c6ca275c: Pull complete
+32c25c884a57: Pull complete
+a35ea168b680: Pull complete
+Digest: sha256:a76eb778d162f8fd96138d9ca7dbd14b8916c201775a97d2f2aa22e9f13eb105
+Status: Downloaded newer image for node:15.4
+docker.io/library/node:15.4
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run -dit --name first_node -v /$(PWD)/data:/var/first/data node:15.4
+aa1def5a7f807f7ae1e11fb5fc31ed53a6424b58facde70a9c3a0b66f5cb7f3a
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run -dit --name second_node -v /$(PWD)/data:/var/second/data node:15.4
+0aa9d41faf1c39acdbdefbaaba9cbe6115b5c2ef94a859b7b6d98120e4f25f99
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker exec first_node touch var/first/data/test.js
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker exec second_node ls var/second/data/
+test.js
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker stop first_node && docker stop second_node
+first_node
+first_node
+[1]+  Done                    docker stop first_node
+second_node
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker ps -a
+CONTAINER ID   IMAGE       COMMAND                  CREATED              STATUS                      
+ PORTS     NAMES
+0aa9d41faf1c   node:15.4   "docker-entrypoint.s…"   About a minute ago   Exited (137) 8 seconds ago             second_node
+aa1def5a7f80   node:15.4   "docker-entrypoint.s…"   About a minute ago   Exited (137) 8 seconds ago             first_node
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rm first_node && docker rm second_node
+first_node
+second_node
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rmi node:15.4
+Untagged: node:15.4
+Untagged: node@sha256:a76eb778d162f8fd96138d9ca7dbd14b8916c201775a97d2f2aa22e9f13eb105
+Deleted: sha256:6f7f341ab8b86ae1e8ce376b8f962f33d0cd3d9d9cd07acd77396d91bac34d8b
+Deleted: sha256:0d6952a67c502eb49f25425a3e2fff57e26eb62f0c6491d6c4c7884f306e667f
+Deleted: sha256:ec81d45a76499da896d7d290d194e3d016fa3d516901bda60944f720ac1d5228
+Deleted: sha256:3f6ba30555746a1b281bd0027e8edd06b4e75cfd8b2757b5b6eeeda31803c304
+Deleted: sha256:653dcd2c724a243a8992ee862ea959f5fc6e3f14e3b17547dbb84daa535ba82d
+Deleted: sha256:8817ecb50c4cff6c4f36dd03e16404bb789b62b6d10f85870dcf481d812b2aeb
+Deleted: sha256:a00209e6849f8017e1f436e6c1a6e6851e6a6319c1c84c7d488a737e1920f2b2
+Deleted: sha256:68827cbdee27e3c02a32334db831b031835caaa73fb2c9ff7a035b39f60a55f5
+Deleted: sha256:9d2607deaa845810b40b28c576e170f9f76579d442bad3bd991465b984ebfde5
+Deleted: sha256:0279b13c6fc69327776f36c3e76faafb3d15dca370a91eefdd22641b2c50f257

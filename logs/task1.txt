@@ -1,0 +1,172 @@
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker pull busybox
+Using default tag: latest
+error during connect: this error may indicate that the docker daemon is not running: Post "http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.24/images/create?fromImage=busybox&tag=latest": open //./pipe/docker_engine: The system cannot find the file specified.
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker pull busybox
+Using default tag: latest
+error during connect: this error may indicate that the docker daemon is not running: Post "http://%2F%2F.%2Fpipe%2Fdocker_engine/v1.24/images/create?fromImage=busybox&tag=latest": open //./pipe/docker_engine: The system cannot find the file specified.
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+325d69979d33: Pull complete
+Digest: sha256:560af6915bfc8d7630e50e212e08242d37b63bd5c1ccf9bd4acccf116e262d5b
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run --name pinger -it -rm busybox ping netology.ru -c 7
+unknown shorthand flag: 'r' in -rm
+See 'docker run --help'.
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run --name pinger -it --rm busybox ping netology.ru -c 7
+PING netology.ru (104.22.41.171): 56 data bytes
+64 bytes from 104.22.41.171: seq=0 ttl=62 time=57.144 ms
+64 bytes from 104.22.41.171: seq=1 ttl=62 time=51.589 ms
+64 bytes from 104.22.41.171: seq=2 ttl=62 time=52.497 ms
+64 bytes from 104.22.41.171: seq=3 ttl=62 time=52.036 ms
+64 bytes from 104.22.41.171: seq=4 ttl=62 time=53.466 ms
+64 bytes from 104.22.41.171: seq=5 ttl=62 time=51.114 ms
+64 bytes from 104.22.41.171: seq=6 ttl=62 time=52.366 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 51.114/52.887/57.144 ms
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker ps -a
+CONTAINER ID   IMAGE                                       COMMAND                  CREATED       STATUS                     PORTS     NAMES
+515159e06692   mcr.microsoft.com/devcontainers/php:0-8.2   "/bin/sh -c 'echo Co…"   6 weeks ago   Exited (137) 6 weeks ago             quizzical_wescoff
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run --name pinger -it busybox ping netology.ru -c 7
+PING netology.ru (104.22.41.171): 56 data bytes
+64 bytes from 104.22.41.171: seq=0 ttl=62 time=50.692 ms
+64 bytes from 104.22.41.171: seq=1 ttl=62 time=52.000 ms
+64 bytes from 104.22.41.171: seq=2 ttl=62 time=51.497 ms
+64 bytes from 104.22.41.171: seq=3 ttl=62 time=52.974 ms
+64 bytes from 104.22.41.171: seq=4 ttl=62 time=51.525 ms
+64 bytes from 104.22.41.171: seq=5 ttl=62 time=52.731 ms
+64 bytes from 104.22.41.171: seq=6 ttl=62 time=51.786 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 50.692/51.886/52.974 ms
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker ps -a
+CONTAINER ID   IMAGE                                       COMMAND                  CREATED         STATUS                     PORTS     NAMES
+1447547fbdee   busybox                                     "ping netology.ru -c…"   9 seconds ago   Exited (0) 2 seconds ago             pinger
+515159e06692   mcr.microsoft.com/devcontainers/php:0-8.2   "/bin/sh -c 'echo Co…"   6 weeks ago     Exited (137) 6 weeks ago             quizzical_wescoff
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker logs pinger
+PING netology.ru (104.22.41.171): 56 data bytes
+64 bytes from 104.22.41.171: seq=0 ttl=62 time=50.692 ms
+64 bytes from 104.22.41.171: seq=1 ttl=62 time=52.000 ms
+64 bytes from 104.22.41.171: seq=2 ttl=62 time=51.497 ms
+64 bytes from 104.22.41.171: seq=3 ttl=62 time=52.974 ms
+64 bytes from 104.22.41.171: seq=4 ttl=62 time=51.525 ms
+64 bytes from 104.22.41.171: seq=5 ttl=62 time=52.731 ms
+64 bytes from 104.22.41.171: seq=6 ttl=62 time=51.786 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 50.692/51.886/52.974 ms
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run --name pinger -it busybox ping netology.ru -c 7
+docker: Error response from daemon: Conflict. The container name "/pinger" is already in use by container "1447547fbdee77e609da152ede2ea8dab10973eddc9e65f9ef360d43bacb857a". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rm pinger
+pinger
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker run --name pinger -it busybox ping netology.ru -c 7
+PING netology.ru (104.22.41.171): 56 data bytes
+64 bytes from 104.22.41.171: seq=0 ttl=62 time=52.426 ms
+64 bytes from 104.22.41.171: seq=1 ttl=62 time=51.850 ms
+64 bytes from 104.22.41.171: seq=2 ttl=62 time=53.426 ms
+64 bytes from 104.22.41.171: seq=3 ttl=62 time=52.819 ms
+64 bytes from 104.22.41.171: seq=4 ttl=62 time=51.793 ms
+64 bytes from 104.22.41.171: seq=5 ttl=62 time=52.011 ms
+64 bytes from 104.22.41.171: seq=6 ttl=62 time=50.891 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 50.891/52.173/53.426 ms
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker ps -a
+CONTAINER ID   IMAGE                                       COMMAND                  CREATED          STATUS                      PORTS     NAMES
+49d6e263ce34   busybox                                     "ping netology.ru -c…"   28 seconds ago   Exited (0) 21 seconds ago             pinger
+515159e06692   mcr.microsoft.com/devcontainers/php:0-8.2   "/bin/sh -c 'echo Co…"   6 weeks ago      Exited (137) 6 weeks ago              quizzical_wescoff
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker logs pinger
+PING netology.ru (104.22.41.171): 56 data bytes
+64 bytes from 104.22.41.171: seq=0 ttl=62 time=52.426 ms
+64 bytes from 104.22.41.171: seq=1 ttl=62 time=51.850 ms
+64 bytes from 104.22.41.171: seq=2 ttl=62 time=53.426 ms
+64 bytes from 104.22.41.171: seq=3 ttl=62 time=52.819 ms
+64 bytes from 104.22.41.171: seq=4 ttl=62 time=51.793 ms
+64 bytes from 104.22.41.171: seq=5 ttl=62 time=52.011 ms
+64 bytes from 104.22.41.171: seq=6 ttl=62 time=50.891 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 50.891/52.173/53.426 ms
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker logs -n pinger
+"docker logs" requires exactly 1 argument.
+See 'docker logs --help'.
+
+Usage:  docker logs [OPTIONS] CONTAINER
+
+Fetch the logs of a container
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker logs --tail pinger
+"docker logs" requires exactly 1 argument.
+See 'docker logs --help'.
+
+Usage:  docker logs [OPTIONS] CONTAINER
+
+Fetch the logs of a container
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker logs --details pinger
+ PING netology.ru (104.22.41.171): 56 data bytes
+ 64 bytes from 104.22.41.171: seq=0 ttl=62 time=52.426 ms
+ 64 bytes from 104.22.41.171: seq=1 ttl=62 time=51.850 ms
+ 64 bytes from 104.22.41.171: seq=2 ttl=62 time=53.426 ms
+ 64 bytes from 104.22.41.171: seq=3 ttl=62 time=52.819 ms
+ 64 bytes from 104.22.41.171: seq=4 ttl=62 time=51.793 ms
+ 64 bytes from 104.22.41.171: seq=5 ttl=62 time=52.011 ms
+ 64 bytes from 104.22.41.171: seq=6 ttl=62 time=50.891 ms
+
+ --- netology.ru ping statistics ---
+ 7 packets transmitted, 7 packets received, 0% packet loss
+ round-trip min/avg/max = 50.891/52.173/53.426 ms
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rm pinger
+pinger
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rm busybox
+Error response from daemon: No such container: busybox
+
+loren@TUFBOOK MINGW64 ~/Documents/repos/@netology/ndjs-22 (homework/009-docker)
+$ docker rmi busybox
+Untagged: busybox:latest
+Untagged: busybox@sha256:560af6915bfc8d7630e50e212e08242d37b63bd5c1ccf9bd4acccf116e262d5b
+Deleted: sha256:8135583d97feb82398909c9c97607159e6db2c4ca2c885c0b8f590ee0f9fe90d
+Deleted: sha256:9547b4c33213e630a0ca602a989ecc094e042146ae8afa502e1e65af6473db03

@@ -61,7 +61,7 @@ export const createBook: RequestHandler = (req, res) => {
 
   dataStore.push(newBook);
 
-  res.status(201).json(newBook);
+  res.redirect(`/books/${id}`);
 };
 
 /** [PUT] Update existing book
@@ -80,7 +80,9 @@ export const updateBook: RequestHandler = (req, res) => {
 
   const updatedBook = new Book({ ...book, ...req.body });
 
-  res.status(200).json(updatedBook);
+  dataStore[bookIdx] = updatedBook;
+
+  res.redirect(`/books/${id}`);
 };
 
 /** [DELETE] Delete book
@@ -114,4 +116,39 @@ export const downloadBook: RequestHandler = (req, res) => {
   const { fileBook, fileName } = book;
 
   res.download(fileBook, fileName);
+};
+
+export const getBooksView: RequestHandler = (req, res) => {
+  res.render("./books/index", { 
+    books: dataStore,
+    title: "Книги",
+  });
+};
+
+export const getBookView: RequestHandler = (req, res) => {
+  const { id } = req.params;
+
+  const book = findBookById(id);
+
+  if (!book) {
+    return res.redirect("/404");
+  }
+
+  res.render("./books/view", { book });
+};
+
+export const  getEditBookView: RequestHandler = (req, res) => {
+  const { id } = req.params;
+
+  const book = findBookById(id);
+
+  if (!book) {
+    return res.redirect("/404");
+  }
+
+  res.render("./books/edit", { book });
+};
+
+export const getCreateBookView: RequestHandler = (req, res) => {
+  res.render("./books/create", { book: {} });
 };

@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { v4 } from "uuid";
 
-import mockBooks from "@root/__mocks__/book.json";
+import mockBooks from "@root/mock/book.json";
 import { Book } from "@root/models/Book";
 
 const uuid = v4;

@@ -19,11 +19,9 @@ const findBookById = (id: string | number): Book | undefined  => {
 
 /** Gets book counter by bookId from booksCounterService */
 const getBookCounter = (bookId: string): Promise<{ viewsCount: number | null }> => {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     try {
-      // http.get(`http://${COUNTER_SERVICE_HOST}:${COUNTER_SERVICE_PORT}/counter/${bookId}`, (res) => {
-
-      http.get({
+      const req = http.get({
         host: COUNTER_SERVICE_HOST,
         port: COUNTER_SERVICE_PORT,
         path: `/counter/${bookId}`,
@@ -31,7 +29,7 @@ const getBookCounter = (bookId: string): Promise<{ viewsCount: number | null }> 
         let data = "";
     
         res.on("data", (chunk: any) => {
-          data += chunk;
+          data += chunk;  
         });
       
         res.on("end", () => {
@@ -40,6 +38,8 @@ const getBookCounter = (bookId: string): Promise<{ viewsCount: number | null }> 
           resolve(result);
         });
       });
+
+      req.on("error", (err) => reject(err));
     } catch (err) {
       const defaultResult = { viewsCount: null };
       resolve(defaultResult);

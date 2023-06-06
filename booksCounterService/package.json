@@ -1,5 +1,5 @@
 {
-  "name": "ndjs-22/books-counter-service",
+  "name": "books-counter-service",
   "version": "1.0.0",
   "description": "Books counter service",
   "main": "index.js",
@@ -18,6 +18,11 @@
     "redis-om": "^0.4.0-beta.3"
   },
   "devDependencies": {
+    "eslint": "^8.42.0",
+    "eslint-config-recommended": "^4.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.1.1",
     "nodemon": "^2.0.22"
   }
 }

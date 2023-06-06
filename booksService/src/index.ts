@@ -32,8 +32,6 @@ app.set("layout", path.resolve("views", "layouts", "full-width"));
 app.use(indexRouter);
 app.use(booksRouter);
 
-// app.use(errorHandlerMiddleware);
-
 // Start server
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

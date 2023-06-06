@@ -9,10 +9,10 @@ const client = createClient({
 });
 
 export const initRedisDB = async () => {
-  console.log('Redis Client Init Start');
+  console.log("Redis Client Init Start");
 
-  client.once('error', err => {
-    console.log('Redis Client Error', err);
+  client.once("error", err => {
+    console.log("Redis Client Error", err);
   });
   
   await client.connect();

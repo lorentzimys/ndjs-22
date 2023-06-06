@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -18,4 +19,4 @@ export {
   PORT,
   REDIS_HOST,
   REDIS_PORT
-}
+};

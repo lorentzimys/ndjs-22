@@ -22,6 +22,9 @@
             <% }) %>
         </ul>
       </div>
+      <% if (typeof viewsCount !== 'undefined') { %>
+        <div><i class="fa fa-eye"></i> <%= viewsCount %></div>
+      <% } %>
     </div>
   </div>
 </div>

@@ -4,10 +4,15 @@ import { v4 } from "uuid";
 
 import mockBooks from "@root/mock/book.json";
 import { Book } from "@root/models/Book";
-import { COUNTER_SERVICE_HOST, COUNTER_SERVICE_PORT } from "@root/config";
+import { COUNTER_SERVICE_HOST, COUNTER_SERVICE_PORT, COUNTER_SERVICE_URL } from "@root/config";
+
+interface BookCounter {
+  viewsCount: number | null;
+}
 
 const uuid = v4;
 const dataStore = mockBooks as unknown as Book[] ?? [];
+
 
 /** Finds book by it's id
  * @param {*} id 
@@ -18,49 +23,21 @@ const findBookById = (id: string | number): Book | undefined  => {
 };
 
 /** Gets book counter by bookId from booksCounterService */
-const getBookCounter = (bookId: string): Promise<{ viewsCount: number | null }> => {
-  return new Promise((resolve, reject) => {
-    try {
-      const req = http.get({
-        host: COUNTER_SERVICE_HOST,
-        port: COUNTER_SERVICE_PORT,
-        path: `/counter/${bookId}`,
-      }, (res) => {
-        let data = "";
-    
-        res.on("data", (chunk: any) => {
-          data += chunk;  
-        });
-      
-        res.on("end", () => {
-          const result = JSON.parse(data);
-          
-          resolve(result);
-        });
-      });
-
-      req.on("error", (err) => reject(err));
-    } catch (err) {
-      const defaultResult = { viewsCount: null };
-      resolve(defaultResult);
-    }
-  });
+const getBookCounter = async (bookId: string): Promise<BookCounter> => {
+  try {
+    return await (await fetch(`${COUNTER_SERVICE_URL}/${bookId}`)).json();
+  } catch (err) {
+    return { viewsCount: null };
+  }
 };
 
 /** Sends request to booksCounterService to increment book counter */
-const incrementBookCounter = (bookId: string): Promise<void> => {
-  return new Promise((resolve) => {
-    const req = http.request({
-      host: COUNTER_SERVICE_HOST,
-      port: COUNTER_SERVICE_PORT,
-      path: `/counter/${bookId}/incr`,
-      method: "POST",
-    });
-
-    req.on("error", () => resolve());
-
-    req.end(() => resolve());
-  });
+const incrementBookCounter = async (bookId: string): Promise<void> => {
+  try {
+    await (await fetch(`${COUNTER_SERVICE_URL}/${bookId}/incr`, { method: "POST" })).json();
+  } catch (err) {
+    void err;
+  }
 };
 
 /*** Returns 404 error */

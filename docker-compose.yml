@@ -1,6 +1,6 @@
 services:
   books:  
-    build: ./booksService
+    image: lorentzimys/books-service:latest
     environment:
       - PORT=6000
       - COUNTER_SERVICE_HOST=books-counter

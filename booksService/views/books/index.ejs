@@ -1,46 +1,56 @@
-<div class="row align-items-center justify-content-between">
-    <h1>Список книг</h1>
-    <a href="/books/create" class="btn btn-success btn-sm">
-        <i class="fa fa-plus"></i>
-    </a>
+
+<div class="row align-items-center justify-content-between my-4">
+  <h1 class="h4">
+    Библиотека
+  </h1>
+  <a href="books/create" class="btn btn-success btn-sm">
+      <i class="fa fa-plus"></i>
+  </a>
 </div>
-<table class="table table-sm">
-    <thead>
-        <tr>
-            <th scope="col">Обложка </th>
-            <th scope="col">Название</th>
-            <th scope="col">Описание</th>
-            <th scope="col">Авторы</th>
-            <!-- <th scope="col">
-                <i class="fa fa-star" style="color: #c1bc25;"></i>
-            </th> -->
-            <!-- <th scope="col">
-                <i class="fa fa-download" aria-hidden="true"></i>
-            </th> -->
-        </tr>
-    </thead>
-    <tbody>
-        <% books.map((el, i) => { %> 
-            <tr>
-                <td>
-                    <% if (el.fileCover) { %>
-                        <img src="<%= el.fileCover %>" width="50" />
-                    <% } %>
-                </td>
-                <td>
-                    <a href="/books/<%= el.id %>">
-                        <%= el.title %>
-                    </a>
-                </td>
-                <td title="<%= el.description %>">
-                    <% if (el.description.length > 100) { %>
-                        <%= el.description.substr(0, 120) %>...
-                    <% } else { %>
-                        <%= el.description %>
-                    <% } %>
-                </td>
-                <td><%= el.authors?.join(', ') %></td>
-            </tr>
-        <% }) %>
-    </tbody>
-</table>
+<div class="row">
+  <table class="table table-sm">
+      <thead>
+          <tr>
+              <th scope="col">Обложка </th>
+              <th scope="col">Название</th>
+              <th scope="col">Описание</th>
+              <th scope="col">Авторы</th>
+              <!-- <th scope="col">
+                  <i class="fa fa-star" style="color: #c1bc25;"></i>
+              </th> -->
+              <!-- <th scope="col">
+                  <i class="fa fa-download" aria-hidden="true"></i>
+              </th> -->
+          </tr>
+      </thead>
+      <tbody>
+          <% if (books.length === 0) { %>
+              <tr>
+                  <td colspan="4" class="text-center m">Книги не найдены</td>
+              </tr>
+          <% } %>
+          <% books.map((el, i) => { %> 
+              <tr>
+                  <td>
+                      <% if (el.fileCover) { %>
+                          <img src="<%= el.fileCover %>" width="50" />
+                      <% } %>
+                  </td>
+                  <td>
+                      <a href="/books/<%= el.id %>">
+                          <%= el.title %>
+                      </a>
+                  </td>
+                  <td title="<%= el.description %>">
+                      <% if (el.description.length > 100) { %>
+                          <%= el.description.substr(0, 120) %>...
+                      <% } else { %>
+                          <%= el.description %>
+                      <% } %>
+                  </td>
+                  <td><%= el.authors?.join(', ') %></td>
+              </tr>
+          <% }) %>
+      </tbody>
+  </table>
+</div>

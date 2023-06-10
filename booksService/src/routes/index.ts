@@ -1,5 +1,6 @@
-import { getIndexView } from "@root/controllers";
 import { Router } from "express";
+
+import { getIndexView } from "@root/controllers";
 
 export const PATHS = {
   login: "/user/login",

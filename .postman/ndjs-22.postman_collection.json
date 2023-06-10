@@ -90,8 +90,7 @@
 								{
 									"key": "fileBook",
 									"type": "file",
-									"src": "/C:/Users/loren/Documents/Предложение на разработку компонента.docx",
-									"disabled": true
+									"src": "/C:/Users/loren/Documents/Предложение на разработку компонента.docx"
 								}
 							]
 						},
@@ -105,6 +104,13 @@
 							"path": [
 								"api",
 								"books"
+							],
+							"query": [
+								{
+									"key": "fileBook",
+									"value": null,
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -197,6 +203,52 @@
 								"api",
 								"user",
 								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Books counter",
+			"item": [
+				{
+					"name": "Increment book counter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}:{{BOOKS_COUNTER_PORT}}/counter/1/incr",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{BOOKS_COUNTER_PORT}}",
+							"path": [
+								"counter",
+								"1",
+								"incr"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get book counter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{HOST}}:{{BOOKS_COUNTER_PORT}}/counter/1",
+							"protocol": "http",
+							"host": [
+								"{{HOST}}"
+							],
+							"port": "{{BOOKS_COUNTER_PORT}}",
+							"path": [
+								"counter",
+								"1"
 							]
 						}
 					},

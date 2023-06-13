@@ -7,18 +7,18 @@
       id="title"
       name="title"
       placeholder="Enter book title"
-      value="<%= book.title %>"
+      value="<%= book?.title ?? '' %>"
     >
   </div>
   <div class="form-group">
     <label for="description">Описание</label>
     <textarea 
-      class="form-control"
+      class="form-control m-0 p-0"
       id="description"
       name="description"
       rows="3"
     >
-      <%= book.description %>
+      <%= book?.description ?? '' %>
     </textarea>
   </div>
   <button type="submit" class="btn btn-primary">Обновить</button>

@@ -1,25 +1,22 @@
 import { RequestHandler } from "express";
-import http from "http";
-import { v4 } from "uuid";
-
-import mockBooks from "@root/mock/book.json";
-import { Book } from "@root/models/Book";
-import { COUNTER_SERVICE_HOST, COUNTER_SERVICE_PORT, COUNTER_SERVICE_URL } from "@root/config";
+import { BookModel } from "@root/models/Book";
+import { COUNTER_SERVICE_URL } from "@root/config";
 
 interface BookCounter {
   viewsCount: number | null;
 }
 
-const uuid = v4;
-const dataStore = mockBooks as unknown as Book[] ?? [];
+/** Finds book by it's id */
+const findBookById = async (id: string | number) => {
+  try {
+    const book = await BookModel.findById(id);
 
+    console.log("book", book);
 
-/** Finds book by it's id
- * @param {*} id 
- * @returns 
- */
-const findBookById = (id: string | number): Book | undefined  => {
-  return dataStore.find((book: Book) => book.id == id);
+    return book;
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 /** Gets book counter by bookId from booksCounterService */
@@ -47,97 +44,110 @@ export const getNotFoundError = (res: any) => res.status(404).json({
 });
 
 /** [GET] Get all books */
-export const getBooks: RequestHandler = (req, res) => res.status(200).json(dataStore);
+export const getBooks: RequestHandler = async (req, res) => {
+  try {
+    const books = await BookModel.find();
+  
+    res.status(200).json(books);
+  } catch (err) {
+    getNotFoundError(res);
+  }
+};
 
 /** [GET] Get book by id */
-export const getBook: RequestHandler = (req, res) => {
+export const getBook: RequestHandler = async (req, res) => {
   const { id } = req.params;
-  const book = findBookById(id);
 
-  if (!book) {
+  try {
+    const book = await findBookById(id);
+
+    res.status(200).json(book);
+  } catch (err) {
     return getNotFoundError(res);
   }
-
-  res.status(200).json(book);
 };
 
 /** [POST] Create book */
-export const createBook: RequestHandler = (req, res) => {
-  const id = uuid();
+export const createBook: RequestHandler = async (req, res) => {
+  try {
+    const newBook = new BookModel({
+      fileName: req.file?.filename,
+      ...req.body,
+      fileBook: req.file?.path ?? "",
+    });
 
-  const newBook = new Book({
-    fileName: req.file?.filename,
-    ...req.body,
-    fileBook: req.file?.path ?? "",
-    id,
-  });
-
-  dataStore.push(newBook);
-
-  res.redirect(`/books/${id}`);
+    console.log(newBook);
+  
+    const createdBook = await newBook.save();
+    res.status(201).json(createdBook);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 /** [PUT] Update book */
-export const updateBook: RequestHandler = (req, res) => {
+export const updateBook: RequestHandler = async (req, res) => {
   const { id } = req.params;
 
-  const bookIdx = dataStore.findIndex(book => book.id == id);
-  const book = dataStore[bookIdx];
+  try {
+    const updatedBook = await BookModel.findOneAndUpdate(
+      {_id: id},
+      { ...req.body },
+      { new: true, }
+    );
 
-  if (!book) {
-    return getNotFoundError(res);
+    console.log(updatedBook);
+  
+    res.status(200).json(updatedBook);
+  } catch (err) {
+    console.log(err);
   }
-
-  const updatedBook = new Book({ ...book, ...req.body });
-
-  dataStore[bookIdx] = updatedBook;
-
-  res.redirect(`/books/${id}`);
 };
 
 /** [DELETE] Delete book */
-export const deleteBook: RequestHandler = (req, res) => {
+export const deleteBook: RequestHandler = async (req, res) => {
   const { id } = req.params;
 
-  const idx = dataStore.findIndex(book => book.id == id);
+  try {
+    const deleted = await BookModel.deleteOne({ _id: id });
 
-  if (idx === -1) {
-    return getNotFoundError(res);
+    console.log(deleted);
+    
+    res.status(200).send("ok");
+  } catch (err)  {
+    console.log(err);
   }
-
-  dataStore.splice(idx, 1);
-
-  res.sendStatus(204);
 };
 
 /** [GET] Download book */
-export const downloadBook: RequestHandler = (req, res) => {
-  const { id } = req.params;
+// export const downloadBook: RequestHandler = async (req, res) => {
+//   const { id } = req.params;
 
-  const book = findBookById(id);
-
-  if (!book) {
-    return getNotFoundError(res);
-  }
-
-  const { fileBook, fileName } = book;
-
-  res.download(fileBook, fileName);
-};
-
+//   try {
+//     const book = await findBookById(id);
+    
+//     const { fileBook, fileName } = book;
+  
+//     res.download(fileBook, fileName);
+//   } catch (err) {
+//     return getNotFoundError(res);
+//   }
+// };
 
 /** Rendering methods */
-export const getBooksView: RequestHandler = (req, res) => {
+export const getBooksView: RequestHandler = async (req, res) => {
+  const books = await BookModel.find();
+
   res.render("./books/index", { 
-    books: dataStore,
     title: "Книги",
+    books,
   });
 };
 
 export const getBookView: RequestHandler = async (req, res) => {
   const { id } = req.params;
   
-  const book = findBookById(id);
+  const book = await findBookById(id);
   
   if (!book) {
     return res.redirect("/404");
@@ -160,10 +170,10 @@ export const getBookView: RequestHandler = async (req, res) => {
   }
 };
 
-export const getEditBookView: RequestHandler = (req, res) => {
+export const getEditBookView: RequestHandler = async (req, res) => {
   const { id } = req.params;
 
-  const book = findBookById(id);
+  const book = await findBookById(id);
 
   if (!book) {
     return res.redirect("/404");
@@ -174,4 +184,8 @@ export const getEditBookView: RequestHandler = (req, res) => {
 
 export const getCreateBookView: RequestHandler = (req, res) => {
   res.render("./books/create", { book: {} });
+   // try {
+  // } catch (err) {
+  //   console.log(err);
+  // }
 };

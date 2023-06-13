@@ -1,28 +1,59 @@
 services:
+  # Connecting storages
+  redis-storage:
+    image: redis:alpine
+    volumes:
+      - ./redis:/data
+  
+  mongo-storage:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    expose:
+      - 27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: qwerty
+    volumes:
+      - ./mongo:/data/db
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: qwerty
+      ME_CONFIG_MONGODB_URL: mongodb://root:qwerty@mongo-storage:27017
+      # ME_CONFIG_MONGODB_URL: mongodb://root:qwerty@mongo-storage:27017/
+
+  # Connecting main app
   books:  
-    image: lorentzimys/books-service:latest
+    build: ./booksService
     environment:
       - PORT=6000
       - COUNTER_SERVICE_HOST=books-counter
       - COUNTER_SERVICE_PORT=6010
+      - MONGO_HOST=mongo-storage
     ports:
       - 80:6000
     depends_on:
       - books-counter
+      - mongo-storage
 
-  storage:
-    image: redis:alpine
-    volumes:
-      - ./redis:/data
-
+  # Connecting services
   books-counter:
     build: ./booksCounterService
     environment:
       - PORT=6010
-      - REDIS_HOST=storage
+      - REDIS_HOST=redis-storage
     ports:
       - "6010:6010" 
     depends_on:
-      - storage
+      - redis-storage
+
+  
 
   

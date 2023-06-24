@@ -1,12 +1,26 @@
 import { Router } from "express";
 
-import { login } from "@root/controllers/user";
+import userController from "@root/controllers/user";
 
 export const LOGIN_PATHS = {
-  LOGIN: "/user/login",
+  ME: "/api/user/me",
+  GET_LOGIN: "/api/user/login",
+  SIGNUP: "/api/user/signup",
+  LOGIN: "/api/user/login",
 };
 
-export const userRouter = Router();
+const userRouter = Router();
 
-/** Login */
-userRouter.post(LOGIN_PATHS.LOGIN, login);
+/** Login page */
+// userRouter.get(LOGIN_PATHS.GET_LOGIN, login);
+
+/** User profile page */
+// userRouter.get(LOGIN_PATHS.ME, login);
+
+/** Login action*/
+userRouter.post(LOGIN_PATHS.LOGIN, userController.login);
+
+/** Signup action */
+userRouter.post(LOGIN_PATHS.SIGNUP, userController.signup);
+
+export default userRouter;

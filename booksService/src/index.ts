@@ -10,10 +10,7 @@ addAliases({
 });
 
 import { PORT, MONGO_URL } from "@root/config";
-
-import { indexRouter } from "@root/routes";
-import { userRouter } from "@root/routes/user";
-import { booksRouter } from "@root/routes/books";
+import routes from "@root/routes";
 
 /** MongoDB initialization function */
 const initMongoDb = async () => {
@@ -53,9 +50,7 @@ const initApp = async (app: express.Express) => {
   });
   
   // Routing
-  app.use(indexRouter);
-  app.use(userRouter);
-  app.use(booksRouter);
+  Object.values(routes).forEach(router => app.use(router));
   
   // Start server
   app.listen(PORT, () => {

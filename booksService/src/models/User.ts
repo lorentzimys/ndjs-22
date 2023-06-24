@@ -1,17 +1,26 @@
-/**
- * @class User
- * @description User model  
- */
-export class User {
-    id: string | number;
-    mail: string;
+import mongoose, { Schema } from "mongoose";
 
-    constructor(opts: User) {
-        const { id, mail } = opts;
-
-        this.id = id;
-        this.mail = mail;
-
-        return this;
-    }
+export interface IUser {
+    id: "string";
+    name: "string";
+    password: "string";
+    email: "string";
 }
+
+export const UserSchema = new Schema<IUser>({
+    name: {
+        type: String,
+        required: true,
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    }
+});
+
+export const UserModel = mongoose.model<IUser>("User", UserSchema);

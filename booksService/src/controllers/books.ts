@@ -184,8 +184,18 @@ export const getEditBookView: RequestHandler = async (req, res) => {
 
 export const getCreateBookView: RequestHandler = (req, res) => {
   res.render("./books/create", { book: {} });
-   // try {
-  // } catch (err) {
-  //   console.log(err);
-  // }
 };
+
+const booksController = {
+  getBooks,
+  getBook,
+  createBook,
+  updateBook,
+  deleteBook,
+  getBooksView,
+  getBookView,
+  getEditBookView,
+  getCreateBookView,
+};
+
+export default booksController;

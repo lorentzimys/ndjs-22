@@ -1,34 +1,8 @@
 import { UserModel } from "@root/models/User";
-
-/*** Returns 404 error */
-const getNotFoundError = (res: any) => res.status(404).json({
-  errmsg: "User not found",
-  errcode: 404,
-});
-
-
-/** Login user */
-export const login = async (req: any, res: any) => {
-  const { password, email } = req.body;
-
-  try {
-    const user = await UserModel.findOne({ email }).exec();
-    
-    console.log(user);
-
-    if (!user) {
-      return getNotFoundError(res);
-    }
-  
-    res.status(201).send(user);
-  } catch (e) {
-    console.log(e);
-  }
-};
-
+import { RequestHandler } from "express";
 
 /** Signup user */
-export const signup = async (req: any, res: any) => {
+export const signup: RequestHandler = async (req, res) => {
   const { name, password, email } = req.body;
 
   try {
@@ -38,14 +12,16 @@ export const signup = async (req: any, res: any) => {
     console.log(createdUser);
   
     res.status(201).send(createdUser);
-
   } catch (e) {
-    console.log(e);
+    return res.status(409).json({ 
+      errcode: 409,
+      errmsg: "User already exists",
+    });
   }
 };
 
 const userController = {
-  login, signup 
+  signup,
 };
 
 export default userController;

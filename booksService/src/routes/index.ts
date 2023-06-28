@@ -1,9 +1,19 @@
 import { Router } from "express";
 
-import { getIndexView } from "@root/controllers";
+import controllers from "@root/controllers";
+
+import booksRouter from "./books";
+import userRouter from "./user";
 
 export const indexRouter: Router = Router();
 
-indexRouter.get("/", getIndexView);
-
+indexRouter.get("/", controllers.indexController.getIndexView);
 indexRouter.get("/404", (res, req) => req.render("./404"));
+
+const routes: Record<string, Router> = {
+  booksRouter,
+  userRouter,
+  indexRouter,
+};
+
+export default routes;

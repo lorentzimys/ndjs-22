@@ -14,7 +14,7 @@ import {
 
 import fileUpload from "@root/middleware/file";
 
-export const booksRouter = Router({ strict: true });
+const booksRouter = Router({ strict: true });
 
 export const BOOKS_PATHS = {
   API: {
@@ -64,3 +64,5 @@ booksRouter.get(BOOKS_PATHS.MVC.GET_BOOK, getBookView);
 
 /** Get all books */
 booksRouter.get(BOOKS_PATHS.MVC.GET_BOOKS, getBooksView);
+
+export default booksRouter;

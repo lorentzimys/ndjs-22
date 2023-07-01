@@ -1,5 +1,7 @@
 import express from "express";
 import session from "express-session";
+import { Server } from "socket.io";
+import http from "http";
 
 import passport from "passport";
 import { Strategy, VerifyFunction }from "passport-local";
@@ -55,7 +57,12 @@ const configureAuth = (app: express.Express) => {
       .catch((err) => done(err));
   };
 
-  app.use(session({ secret: "SECRET"}));
+  app.use(session({
+    secret: "SECRET",
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    }
+  }));
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -72,6 +79,37 @@ const configureAuth = (app: express.Express) => {
   });
 };
 
+const initSocketConnection = (app: express.Express) => {
+  const httpServer = http.createServer(app);
+  const options = {
+    cors: {
+      origin: ["http://localhost:3000"]
+    }
+  };
+  const io = new Server(httpServer, options);
+
+  io.listen(3001);
+
+  io.on("connection", (socket) => {
+    const { id } = socket;
+    console.log(`Socket connected: ${id}`);
+
+    // работа с комнатами
+    const roomName = socket.handshake.query.roomName as string;
+
+    socket.join(roomName);
+
+    socket.on("message-to-room", (msg) => {
+      msg.type = `room: ${roomName}`;
+      socket.to(roomName).emit("message-to-room", msg);
+      socket.emit("message-to-room", msg);
+    });
+
+    socket.on("disconnect", () => {
+      console.log(`Socket disconnected: ${id}`);
+    });
+  });
+};
 
 /** Application initialization function */
 const initApp = async (app: express.Express) => {
@@ -83,6 +121,8 @@ const initApp = async (app: express.Express) => {
   app.use(bodyParser.urlencoded({ extended: true }));
   
   configureAuth(app);
+
+  initSocketConnection(app);
   
   app.set("views", path.resolve("views"));
   app.set("view engine", "ejs");

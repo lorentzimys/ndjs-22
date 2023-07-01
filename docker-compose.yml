@@ -55,7 +55,8 @@ services:
       - "6010:6010" 
     depends_on:
       - redis-storage
-
+volumes:
+  mongo:
   
 
   

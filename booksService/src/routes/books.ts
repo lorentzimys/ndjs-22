@@ -1,20 +1,10 @@
 import { Router } from "express";
 
-import {
-  deleteBook,
-  getBooksView,
-  getEditBookView,
-  getCreateBookView,
-  getBookView,
-  createBook,
-  updateBook,
-  getBook,
-  getBooks
-} from "@root/controllers/books";
-
+import controllers from "@root/controllers";
 import fileUpload from "@root/middleware/file";
 
 const booksRouter = Router({ strict: true });
+const booksController = controllers.booksController;
 
 export const BOOKS_PATHS = {
   API: {
@@ -35,17 +25,18 @@ export const BOOKS_PATHS = {
 };
 
 /** READ */
-booksRouter.get(BOOKS_PATHS.API.GET_BOOK, getBook);
-booksRouter.get(BOOKS_PATHS.API.GET_BOOKS, getBooks);
+booksRouter.get(BOOKS_PATHS.API.GET_BOOK, booksController.getBook);
+
+booksRouter.get(BOOKS_PATHS.API.GET_BOOKS, booksController.getBooks);
 
 /** CREATE */
-booksRouter.post(BOOKS_PATHS.API.CREATE_BOOK, fileUpload.single("fileBook"), createBook);
+booksRouter.post(BOOKS_PATHS.API.CREATE_BOOK, fileUpload.single("fileBook"), booksController.createBook);
 
 /** UPDATE */
-booksRouter.put(BOOKS_PATHS.API.UPDATE_BOOK, updateBook);
+booksRouter.put(BOOKS_PATHS.API.UPDATE_BOOK, booksController.updateBook);
 
 /** DELETE */
-booksRouter.delete(BOOKS_PATHS.API.DELETE_BOOK, deleteBook);
+booksRouter.delete(BOOKS_PATHS.API.DELETE_BOOK, booksController.deleteBook);
 
 /** DOWNLOAD */
 // booksRouter.get(BOOKS_PATHS.API.DOWNLOAD_BOOK, downloadBook);
@@ -53,16 +44,17 @@ booksRouter.delete(BOOKS_PATHS.API.DELETE_BOOK, deleteBook);
 
 /* MVC */
 /** Create book */
-booksRouter.get(BOOKS_PATHS.MVC.CREATE_BOOK, getCreateBookView);
+booksRouter.get(BOOKS_PATHS.MVC.CREATE_BOOK, booksController.getCreateBookView);
+booksRouter.post(BOOKS_PATHS.MVC.CREATE_BOOK, booksController.createBook);
 
 /** Edit book view*/
-booksRouter.get(BOOKS_PATHS.MVC.EDIT_BOOK, getEditBookView);
-booksRouter.post(BOOKS_PATHS.MVC.EDIT_BOOK, updateBook);
+booksRouter.get(BOOKS_PATHS.MVC.EDIT_BOOK, booksController.getEditBookView);
+booksRouter.post(BOOKS_PATHS.MVC.EDIT_BOOK, booksController.updateBook);
 
 /** Get book  */
-booksRouter.get(BOOKS_PATHS.MVC.GET_BOOK, getBookView);
+booksRouter.get(BOOKS_PATHS.MVC.GET_BOOK, booksController.getBookView);
 
 /** Get all books */
-booksRouter.get(BOOKS_PATHS.MVC.GET_BOOKS, getBooksView);
+booksRouter.get(BOOKS_PATHS.MVC.GET_BOOKS, booksController.getBooksView);
 
 export default booksRouter;

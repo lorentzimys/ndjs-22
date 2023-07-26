@@ -1,5 +1,5 @@
 import { RequestHandler } from "express";
-import { BookModel } from "@root/models/Book";
+import { BookModel } from "@root/models/book";
 import { COUNTER_SERVICE_URL } from "@root/config";
 
 interface BookCounter {

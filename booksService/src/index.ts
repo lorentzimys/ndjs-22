@@ -17,8 +17,10 @@ addAliases({
 });
 
 import { PORT, MONGO_URL } from "@root/config";
-import routes from "@root/routes";
-import { IUser, UserModel } from "@root/models/User";
+import IndexRouter from "@root/routes/index";
+import UserRouter from "@root/routes/user";
+import BooksRouter from "@root/routes/books";
+import { IUser, UserModel } from "@root/models/user";
 
 /** MongoDB initialization function */
 const initMongoDb = async () => {
@@ -145,7 +147,9 @@ const initApp = async (app: express.Express) => {
   });
   
   // Routing
-  Object.values(routes).forEach(router => app.use(router));
+  app.use("/", IndexRouter);
+  app.use("/", BooksRouter);
+  app.use("/", UserRouter);
   
   // Start server
   app.listen(PORT, () => {

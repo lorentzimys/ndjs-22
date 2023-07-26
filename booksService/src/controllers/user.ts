@@ -1,4 +1,4 @@
-import { UserModel } from "@root/models/User";
+import { UserModel } from "@root/models/user";
 import { RequestHandler } from "express";
 
 /** Signup user */

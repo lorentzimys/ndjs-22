@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import passport from "passport";
-import controllers from "@root/controllers";
+import UserController from "@root/controllers/user";
 
 export const LOGIN_PATHS = {
   USER_PAGE: "/me",
@@ -30,6 +30,6 @@ userRouter.get(LOGIN_PATHS.USER_PAGE, (req, res) => {
 });
 
 /** Signup action */
-userRouter.post(LOGIN_PATHS.SIGNUP, controllers.userController.signup);
+userRouter.post(LOGIN_PATHS.SIGNUP, UserController.signup);
 
 export default userRouter;

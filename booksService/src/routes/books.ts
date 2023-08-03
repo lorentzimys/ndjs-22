@@ -2,6 +2,8 @@ import { Router } from "express";
 
 import BooksController from "@root/controllers/books";
 import fileUpload from "@root/middleware/file";
+import { iocContainer } from "@root/ioc-container";
+import { BooksRepository } from "@root/BooksRepository";
 
 const booksRouter = Router({ strict: true });
 
@@ -51,7 +53,13 @@ booksRouter.get(BOOKS_PATHS.MVC.EDIT_BOOK, BooksController.getEditBookView);
 booksRouter.post(BOOKS_PATHS.MVC.EDIT_BOOK, BooksController.updateBook);
 
 /** Get book  */
-booksRouter.get(BOOKS_PATHS.MVC.GET_BOOK, BooksController.getBookView);
+// booksRouter.get(BOOKS_PATHS.MVC.GET_BOOK, BooksController.getBookView);
+booksRouter.get(BOOKS_PATHS.MVC.GET_BOOK, async (req, res, next) => {
+  const repo = iocContainer.get(BooksRepository);
+  const book = await repo.getBook(req.params.id);
+
+  res.json(book);
+});
 
 /** Get all books */
 booksRouter.get(BOOKS_PATHS.MVC.GET_BOOKS, BooksController.getBooksView);
